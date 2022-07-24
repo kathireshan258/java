@@ -14,7 +14,7 @@ class Locations implements Map<Integer, Location> {
 
     static {
 
-       try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("NIO//pathExampleOne//locations.dat")))) {
+        try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("NIO//pathExampleOne//locations.dat")))) {
             boolean eof = false;
             while (!eof) {
                 try {
@@ -25,15 +25,15 @@ class Locations implements Map<Integer, Location> {
                     locations.put(location.getLocationID(), location);
                 } catch (InvalidClassException ic) {
                     System.out.println("Invalid class Exception: " + ic.getMessage());
-                } catch (ClassNotFoundException ce){
+                } catch (ClassNotFoundException ce) {
                     System.out.println("Class Not Found Exception " + ce.getMessage());
                 } catch (EOFException eo) {
                     eof = true;
                 }
             }
-       } catch (IOException e) {
-           System.out.println();
-       }
+        } catch (IOException e) {
+            System.out.println();
+        }
 
     }
 
@@ -43,18 +43,19 @@ class Locations implements Map<Integer, Location> {
         Path dirPath = FileSystems.getDefault().getPath("directions_big.txt");
         try (BufferedWriter locFile = Files.newBufferedWriter(locPath);
              BufferedWriter dirFile = Files.newBufferedWriter(dirPath)) {
-             for (Location location : locations.values()) {
-                 locFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
-                 for (String direction : location.getExits().keySet()) {
-                     if (!direction.equalsIgnoreCase("Q")) {
-                         dirFile.write(location.getLocationID() + "," + direction + "," + location.getExits().
-                                 get(direction) + "\n");
-                     }
-                 }
-             }
+            for (Location location : locations.values()) {
+                locFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
+                for (String direction : location.getExits().keySet()) {
+                    if (!direction.equalsIgnoreCase("Q")) {
+                        dirFile.write(location.getLocationID() + "," + direction + "," + location.getExits().
+                                get(direction) + "\n");
+                    }
+                }
+            }
         }
     }
-        @Override
+
+    @Override
     public int size() {
         return locations.size();
     }
